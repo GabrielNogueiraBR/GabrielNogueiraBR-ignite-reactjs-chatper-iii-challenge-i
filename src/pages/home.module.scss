@@ -1,1 +1,56 @@
-// TODO
+.container {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 43.75rem;
+  margin: 0 auto;
+}
+
+.postContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  width: 100%;
+
+  h2 {
+    font-size: 1.75rem;
+    color: var(--heading);
+  }
+
+  p {
+    margin-top: 0.5rem;
+    font-size: 1.125rem;
+  }
+
+  & + & {
+    margin-top: 3rem;
+  }
+
+  .postFooter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin-top: 1.5rem;
+
+    .postDate {
+      time {
+        font-size: 0.875rem;
+        color: var(--info);
+      }
+    }
+
+    .postAuthor {
+      margin-left: 1.5rem;
+
+      p {
+        font-size: 0.875rem;
+        color: var(--info);
+      }
+    }
+  }
+}
