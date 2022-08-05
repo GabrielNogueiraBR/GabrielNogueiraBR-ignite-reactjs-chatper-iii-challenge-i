@@ -10,5 +10,30 @@
   "linked_documents": [],
   "lang": "en-us",
   "alternate_languages": [],
-  "data": {}
+  "data": {
+    "title": "able",
+    "subtitle": "full",
+    "author": "oxygen",
+    "banner": {
+      "dimensions": {
+        "width": 900,
+        "height": 500
+      },
+      "alt": null,
+      "copyright": null,
+      "url": "https://images.unsplash.com/photo-1587613865763-4b8b0d19e8ab"
+    },
+    "content": [
+      {
+        "heading": "newspaper",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Culpa quis elit elit pariatur occaecat sint est aliqua do. Fugiat officia aliqua commodo exercitation labore ex dolor ut minim voluptate occaecat eiusmod.",
+            "spans": []
+          }
+        ]
+      }
+    ]
+  }
 }
