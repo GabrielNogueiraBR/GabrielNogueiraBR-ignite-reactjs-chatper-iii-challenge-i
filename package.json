@@ -8,7 +8,8 @@
     "start": "next start",
     "test": "jest --watchAll",
     "coverage": "jest --coverage",
-    "slicemachine": "start-slicemachine"
+    "slicemachine": "start-slicemachine",
+    "prettier": "prettier --check ./**/*.{tsx,ts,jsx,js,json}"
   },
   "dependencies": {
     "@prismicio/client": "^6.6.3",
