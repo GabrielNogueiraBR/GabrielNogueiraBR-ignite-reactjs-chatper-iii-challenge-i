@@ -30,14 +30,16 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
   return (
     <div className={styles.container}>
       {posts.map(post => (
-        <div className={styles.postContainer}>
+        <div className={styles.postContainer} key={post.uid}>
           <h2>{post.data.title}</h2>
           <p>{post.data.subtitle}</p>
           <div className={styles.postFooter}>
             <div className={styles.postDate}>
+              <img src="/assets/calendar.svg" alt="calendar icon" />
               <time>{post.first_publication_date}</time>
             </div>
             <div className={styles.postAuthor}>
+              <img src="/assets/user.svg" alt="author icon" />
               <p>{post.data.author}</p>
             </div>
           </div>
