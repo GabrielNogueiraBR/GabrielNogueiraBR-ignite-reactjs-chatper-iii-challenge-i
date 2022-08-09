@@ -38,19 +38,56 @@
     margin-top: 1.5rem;
 
     .postDate {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
       time {
         font-size: 0.875rem;
         color: var(--info);
+
+        margin-left: 0.5rem;
       }
     }
 
     .postAuthor {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
       margin-left: 1.5rem;
 
       p {
         font-size: 0.875rem;
         color: var(--info);
+
+        margin-left: 0.5rem;
       }
     }
+  }
+}
+
+.buttonContainer {
+  margin-top: 4rem;
+
+  button {
+    border: none;
+    background: none;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.125rem;
+    line-height: 1.375rem;
+
+    color: var(--highlight);
+    
+    transition: filter 250ms;
+  }
+
+  button:hover {
+    filter: brightness(0.8);
   }
 }

@@ -25,7 +25,7 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
-  const { results: posts } = postsPagination;
+  const { results: posts, next_page } = postsPagination;
 
   return (
     <div className={styles.container}>
@@ -45,6 +45,11 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
           </div>
         </div>
       ))}
+      {next_page && (
+        <div className={styles.buttonContainer}>
+          <button type="button">Carregar mais posts</button>
+        </div>
+      )}
     </div>
   );
 }
