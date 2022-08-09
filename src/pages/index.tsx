@@ -28,7 +28,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
   const { results: posts, next_page } = postsPagination;
 
   return (
-    <div className={styles.container}>
+    <div className={commonStyles.container}>
       {posts.map(post => (
         <div className={styles.postContainer} key={post.uid}>
           <h2>{post.data.title}</h2>

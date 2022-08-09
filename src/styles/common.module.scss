@@ -1,1 +1,8 @@
-// TODO
+.container {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 43.75rem;
+  margin: 0 auto;
+}
