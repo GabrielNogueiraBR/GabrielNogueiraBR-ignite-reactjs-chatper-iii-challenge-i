@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 
+import Link from 'next/link';
 import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
@@ -32,7 +33,11 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
       <img src="/assets/logo.svg" alt="logo" className={styles.logo} />
       {posts.map(post => (
         <div className={styles.postContainer} key={post.uid}>
-          <h2>{post.data.title}</h2>
+          <Link href={`/post/${post.uid}`}>
+            <a>
+              <h2>{post.data.title}</h2>
+            </a>
+          </Link>
           <p>{post.data.subtitle}</p>
           <div className={styles.postFooter}>
             <div className={styles.postDate}>
