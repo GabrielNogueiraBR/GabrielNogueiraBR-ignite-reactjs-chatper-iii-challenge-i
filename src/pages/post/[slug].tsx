@@ -50,10 +50,12 @@ export default function Post({ post }: PostProps): JSX.Element {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const prismic = getPrismicClient({});
-  // const posts = await prismic.getByType(TODO);
+  const posts = await (
+    await prismic.getByType('post', { pageSize: 10 })
+  ).results;
 
   return {
-    paths: [],
+    paths: posts.map(post => `/post/${post.uid}`),
     fallback: true,
   };
 };
