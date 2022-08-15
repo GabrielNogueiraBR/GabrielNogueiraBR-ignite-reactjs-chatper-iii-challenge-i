@@ -1,4 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+
+import PrismicDOM from 'prismic-dom';
+
 import Header from '../../components/Header';
 
 import { getPrismicClient } from '../../services/prismic';
@@ -27,7 +30,14 @@ interface PostProps {
   post: Post;
 }
 
-export default function Post(): JSX.Element {
+export default function Post({ post }: PostProps): JSX.Element {
+  const readTime = post?.data?.content.reduce((prev, curr) => {
+    const text = PrismicDOM.RichText.asText(curr.body).split(' ').length;
+
+    const readTextTime = Math.ceil(text / 200);
+    return readTextTime + prev;
+  }, 0);
+
   return (
     <>
       <Header />
@@ -50,9 +60,25 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const prismic = getPrismicClient({});
-  // const response = await prismic.getByUID(TODO);
+
+  const { slug } = params;
+  const response = await prismic.getByUID('post', `${slug}`);
+
+  const post: Post = {
+    first_publication_date: response.first_publication_date,
+    data: {
+      title: response.data.title,
+      banner: {
+        url: response.data.banner.url,
+      },
+      author: response.data.author,
+      content: response.data.content,
+    },
+  };
 
   return {
-    props: {},
+    props: {
+      post,
+    },
   };
 };
