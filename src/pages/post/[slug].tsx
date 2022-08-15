@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
 
 import PrismicDOM from 'prismic-dom';
 
@@ -31,12 +32,22 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
+  const router = useRouter();
+
   const readTime = post?.data?.content.reduce((prev, curr) => {
     const text = PrismicDOM.RichText.asText(curr.body).split(' ').length;
 
     const readTextTime = Math.ceil(text / 200);
     return readTextTime + prev;
   }, 0);
+
+  if (router.isFallback) {
+    return (
+      <>
+        <h3>Carregando...</h3>
+      </>
+    );
+  }
 
   return (
     <>
