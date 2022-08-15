@@ -53,7 +53,29 @@ export default function Post({ post }: PostProps): JSX.Element {
     <>
       <Header />
       <main>
-        <h3>Olá</h3>
+        <div className={styles.banner}>
+          <img src={post.data.banner.url} alt="banner" />
+        </div>
+        <div className={commonStyles.container}>
+          <div className={styles.titleContainer}>
+            <h3>{post.data.title}</h3>
+            <div className={styles.info}>
+              <div className={styles.date}>
+                <img src="/assets/calendar.svg" alt="calendar icon" />
+                <p>{post.first_publication_date}</p>
+              </div>
+              <div className={styles.author}>
+                <img src="/assets/user.svg" alt="author icon" />
+                <p>{post.data.author}</p>
+              </div>
+              <div className={styles.readTime}>
+                <img src="/assets/clock.svg" alt="clock icon" />
+                <p>{`${readTime} min`}</p>
+              </div>
+            </div>
+          </div>
+          <h3>Olá</h3>
+        </div>
       </main>
     </>
   );
@@ -78,7 +100,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const response = await prismic.getByUID('post', `${slug}`);
 
   const post: Post = {
-    first_publication_date: response.first_publication_date,
+    first_publication_date: new Date(
+      response.first_publication_date
+    ).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    }),
     data: {
       title: response.data.title,
       banner: {
