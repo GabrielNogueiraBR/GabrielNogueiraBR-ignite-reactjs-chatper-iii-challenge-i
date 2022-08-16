@@ -1,7 +1,10 @@
 import { GetStaticProps } from 'next';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
@@ -73,7 +76,11 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
           <div className={styles.postFooter}>
             <div className={styles.postDate}>
               <img src="/assets/calendar.svg" alt="calendar icon" />
-              <time>{post.first_publication_date}</time>
+              <time>
+                {format(new Date(post.first_publication_date), 'dd MMM yyyy', {
+                  locale: ptBR,
+                })}
+              </time>
             </div>
             <div className={styles.postAuthor}>
               <img src="/assets/user.svg" alt="author icon" />
@@ -102,13 +109,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts: Post[] = results.map(post => {
     return {
       uid: post.uid,
-      first_publication_date: new Date(
-        post.first_publication_date
-      ).toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      }),
+      first_publication_date: post.first_publication_date,
       data: {
         author: post.data.author,
         subtitle: post.data.subtitle,

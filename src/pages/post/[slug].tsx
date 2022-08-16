@@ -4,6 +4,9 @@ import { useRouter } from 'next/router';
 
 import PrismicDOM from 'prismic-dom';
 
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+
 import Header from '../../components/Header';
 
 import { getPrismicClient } from '../../services/prismic';
@@ -63,7 +66,13 @@ export default function Post({ post }: PostProps): JSX.Element {
             <div className={styles.info}>
               <div className={styles.date}>
                 <img src="/assets/calendar.svg" alt="calendar icon" />
-                <p>{post.first_publication_date}</p>
+                <p>
+                  {format(
+                    new Date(post.first_publication_date),
+                    'dd MMM yyyy',
+                    { locale: ptBR }
+                  )}
+                </p>
               </div>
               <div className={styles.author}>
                 <img src="/assets/user.svg" alt="author icon" />
@@ -112,14 +121,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
   const response = await prismic.getByUID('post', `${slug}`);
 
+  format(new Date(), "'Hoje é' eeee", {
+    locale: ptBR,
+  });
   const post: Post = {
-    first_publication_date: new Date(
-      response.first_publication_date
-    ).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    }),
+    first_publication_date: response.first_publication_date,
     data: {
       title: response.data.title,
       banner: {
