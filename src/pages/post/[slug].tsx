@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 
@@ -74,7 +75,19 @@ export default function Post({ post }: PostProps): JSX.Element {
               </div>
             </div>
           </div>
-          <h3>Olá</h3>
+          <div className={styles.contentContainer}>
+            {post.data.content.map(({ heading, body }) => (
+              <>
+                <h3>{heading}</h3>
+                <div
+                  className={styles.content}
+                  dangerouslySetInnerHTML={{
+                    __html: PrismicDOM.RichText.asHtml(body),
+                  }}
+                />
+              </>
+            ))}
+          </div>
         </div>
       </main>
     </>
