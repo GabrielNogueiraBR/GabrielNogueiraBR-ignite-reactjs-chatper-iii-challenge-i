@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
@@ -26,7 +27,37 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps): JSX.Element {
-  const { results: posts, next_page } = postsPagination;
+  const { results, next_page } = postsPagination;
+
+  const [posts, setPosts] = useState<Post[]>(results);
+  const [nextPage, setNextPage] = useState(next_page);
+
+  const handleLoadMorePosts = async (): Promise<void> => {
+    const request = await fetch(nextPage);
+
+    const { results: postResults } = await request.json();
+
+    const pagination: Post[] = postResults.map(post => {
+      return {
+        uid: post.uid,
+        first_publication_date: new Date(
+          post.first_publication_date
+        ).toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        }),
+        data: {
+          author: post.data.author,
+          subtitle: post.data.subtitle,
+          title: post.data.title,
+        },
+      };
+    });
+
+    setPosts([...posts, ...pagination]);
+    setNextPage(null);
+  };
 
   return (
     <div className={commonStyles.container}>
@@ -51,9 +82,11 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
           </div>
         </div>
       ))}
-      {next_page && (
+      {nextPage && (
         <div className={styles.buttonContainer}>
-          <button type="button">Carregar mais posts</button>
+          <button type="button" onClick={handleLoadMorePosts}>
+            Carregar mais posts
+          </button>
         </div>
       )}
     </div>
@@ -62,7 +95,7 @@ export default function Home({ postsPagination }: HomeProps): JSX.Element {
 
 export const getStaticProps: GetStaticProps = async () => {
   const prismic = getPrismicClient({});
-  const response = await prismic.getByType('post', { pageSize: 20 });
+  const response = await prismic.getByType('post', { pageSize: 2 });
 
   const { results, next_page } = response;
 
