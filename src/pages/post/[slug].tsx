@@ -125,24 +125,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
   const response = await prismic.getByUID('post', `${slug}`);
 
-  format(new Date(), "'Hoje é' eeee", {
-    locale: ptBR,
-  });
-  const post: Post = {
-    first_publication_date: response.first_publication_date,
-    data: {
-      title: response.data.title,
-      banner: {
-        url: response.data.banner.url,
-      },
-      author: response.data.author,
-      content: response.data.content,
-    },
-  };
-
   return {
     props: {
-      post,
+      post: response,
     },
   };
 };
