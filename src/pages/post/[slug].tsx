@@ -106,11 +106,15 @@ export default function Post({ post }: PostProps): JSX.Element {
 export const getStaticPaths: GetStaticPaths = async () => {
   const prismic = getPrismicClient({});
   const posts = await (
-    await prismic.getByType('post', { pageSize: 10 })
+    await prismic.getByType('post', { pageSize: 2 })
   ).results;
 
   return {
-    paths: posts.map(post => `/post/${post.uid}`),
+    paths: posts.map(post => {
+      return {
+        params: { slug: post.uid },
+      };
+    }),
     fallback: true,
   };
 };
