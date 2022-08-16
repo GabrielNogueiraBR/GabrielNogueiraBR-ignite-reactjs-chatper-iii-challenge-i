@@ -66,9 +66,27 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const { results, next_page } = response;
 
+  const posts: Post[] = results.map(post => {
+    return {
+      uid: post.uid,
+      first_publication_date: new Date(
+        post.first_publication_date
+      ).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      }),
+      data: {
+        author: post.data.author,
+        subtitle: post.data.subtitle,
+        title: post.data.title,
+      },
+    };
+  });
+
   return {
     props: {
-      postsPagination: { results, next_page },
+      postsPagination: { results: posts, next_page },
     },
   };
 };
